@@ -4,10 +4,10 @@ class UsersController < ApplicationController
   # GET /users
   def index
     @users = Rails.cache.fetch('users_index') do
-      User.all.to_json
+      User.all.as_json
     end
 
-    render json: @users, except: :password_digest
+    render json: @users, except: "password_digest"
   end
 
   # GET /users/1
