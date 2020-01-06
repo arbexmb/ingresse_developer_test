@@ -28,7 +28,7 @@ bundle install
 
 Then, it is necessary to setup environment configurations to run it locally. On your .env file fill in the correct informations of your database user, name, pass, and whichever more info you need to properly connect the application to PostgreSQL and Redis. 
 
-**OBS: to give proper permissions to your user on PostgreSQL, don't forget to run `createuser --interactive`, in order to grant super admin permissions to it**
+**OBS: to give proper permissions to your user on PostgreSQL, don't forget to run `createuser --interactive`, in order to grant super admin permissions to him.**
 
 With that done, there are just two more steps to do before starting the server: creating the database and running the migrations. To accomplish that, run the following on the command line.
 
