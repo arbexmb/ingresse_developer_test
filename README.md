@@ -15,9 +15,9 @@ It is possible to check the API's functionality on a heroku app. You can find ho
 ## Setup
 
 Before setting up the project, the following must be installed in your machine:
-- Ruby 2.6.5
+- Ruby 2.6.5 and Rails 6.0.2 *(there is a nice tutorial on https://rvm.io/ on how to install them)*
 - Redis 5.0+
-- PostgreSQL 11.0+
+- PostgreSQL 11.0+ 
 
 With all the above installed and properly configured, the first step to setup the project is to install its dependencies, running the following command:
 
@@ -26,7 +26,16 @@ gem install bundle
 bundle install
 ```
 
-Then, it is necessary to setup environment configurations to run it locally. On your .env file fill in the correct informations of your database user, name, pass, and whichever more info you need to properly connect the application to PostgreSQL and Redis.
+Then, it is necessary to setup environment configurations to run it locally. On your .env file fill in the correct informations of your database user, name, pass, and whichever more info you need to properly connect the application to PostgreSQL and Redis. 
+
+**OBS: to give proper permissions to your user on PostgreSQL, don't forget to run `createuser --interactive`, in order to grant super admin permissions to it**
+
+With that done, there are just two more steps to do before starting the server: creating the database and running the migrations. To accomplish that, run the following on the command line.
+
+```
+rails db:create
+rails db:migrate
+```
 
 Finally, simply run `rails s` to start puma server on localhost, at port 3000 (or another, if you have changed it on .env).
 
