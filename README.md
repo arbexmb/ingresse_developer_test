@@ -15,14 +15,14 @@ It is possible to check the API's functionality on a heroku app. You can find ho
 ## Setup
 
 Before setting up the project, the following must be installed in your machine:
-- Ruby 2.6.5 and Rails 6.0.2 *(there is a nice tutorial on https://rvm.io/ on how to install them)*
+- Ruby 2.6.5 *(I strongly recommend installing it through rvm. There is a nice tutorial on https://rvm.io/ on how to install it)*
 - Redis 5.0+
 - PostgreSQL 11.0+ 
 
 With all the above installed and properly configured, the first step to setup the project is to install its dependencies, running the following command:
 
 ```
-gem install bundle
+gem install bundler
 bundle install
 ```
 
