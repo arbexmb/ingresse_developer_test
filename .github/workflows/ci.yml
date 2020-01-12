@@ -15,7 +15,7 @@ jobs:
       redis:
         image: redis
         ports: ['6379:6379']
-        oprtions: --entrypoint redis-server
+        options: --entrypoint redis-server
     steps:
       - uses: action/checkout@v1
       - name: Setup Ruby
