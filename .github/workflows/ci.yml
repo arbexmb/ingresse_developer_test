@@ -19,7 +19,8 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Setup Ruby
-        uses: actions/setup-ruby@v1
+      - uses: clupprich/ruby-build-action@master
+        id: ruby
         with:
           ruby-version: 2.6.5
       - name: Build and RSpec
