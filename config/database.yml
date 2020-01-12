@@ -15,7 +15,6 @@ development:
   host: db_dev
   database: <%= "#{ENV['DB_NAME']}_development" %>
 
-
 test:
   <<: *default
   host: db_dev
