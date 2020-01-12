@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Setup Ruby
-      - uses: clupprich/ruby-build-action@master
+        uses: clupprich/ruby-build-action@master
         id: ruby
         with:
           ruby-version: 2.6.5
