@@ -6,6 +6,10 @@ default: &default
   password:
   pool: 5
 
+production:
+  <<: *default
+  database: <%= "#{ENV['DB_NAME']}_production" %>
+
 development:
   <<: *default
   host: db_dev

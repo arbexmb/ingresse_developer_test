@@ -11,19 +11,23 @@ services:
   redis:
     image: redis
     command: "redis-server"
-  web:
-    build: .
+  production:
+    build:
+      context: .
+      dockerfile: production.Dockerfile
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     volumes:
-      - .:/ingresse_web
+      - .:/ingresse_production
     ports:
       - "3000:3000"
     depends_on:
       - db
       - redis
   development:
-    build: .
-    command: bash -c "dotenv bundle exec rails s -p 3000 -b '0.0.0.0'"
+    build:
+      context: .
+      dockerfile: development.Dockerfile
+    command: bash -c "rm -f tmp/pids/server.pid && dotenv bundle exec rails s -p 3000 -b '0.0.0.0'"
     volumes:
       - .:/ingresse_development
     ports:
