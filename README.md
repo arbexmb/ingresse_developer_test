@@ -18,7 +18,7 @@ The only things you need to have installed in your machine to set up the project
 
 With that properly installed, you are done to start configuring the application on your local machine, by forking this repository, and cloning it whatever you want.
 
-Once you get all the files,  you have to simply run a couple of docker commands.
+Once you get all the files, you have to simply run a couple of docker commands inside the application's directory.
 
 ```
 # docker-compose build
@@ -28,7 +28,7 @@ Once you get all the files,  you have to simply run a couple of docker commands.
 
 That's all!
 
-The above commands will build the application and its containers on both environments, then it will run it on production and finally it will prepare the database to be used. After all processes end the application will be running on port 80, which you will be able to verify by testing the API with the instructions below.
+The above commands will build the application and its containers on both environments, then it will run it on production and prepare the database to be used. After everything is done the application will be running on port 80, which you will be able to verify by testing the API with the instructions below.
 
 **OBS:** To run the development environment, change `docker-compose up production` to `docker-compose up development`. It will run the application on port 3001.
 
@@ -66,6 +66,6 @@ Once you push it to Github, you will be able to check the status of the building
 
 ## Considerations
 
-To see the cache layer implemented, you can make any GET request available to the API and check the logs to verify that no call is made to the database after the second straight request to the same endpoint *(just be careful though, because there is a rule to clear Redis cache keys after create and update methods)*.
+To verify the cache layer implementation, you can make any GET request available to the API and check the logs to verify that no call is made to the database after the second straight request to the same endpoint *(just be careful though, because there is a rule to clear Redis cache keys after create and update methods)*.
 
-**OBS:** On production environment, run `tail -f log/production.rb` to check the logs. On development, simply change it to `development.rb`.
+**OBS:** On production environment, run `tail -f log/production.rb` to check the logs in real time. On development, simply change it to `development.rb`.
