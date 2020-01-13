@@ -1,59 +1,40 @@
 # Ingresse Developer Test
 
-This repository contains a possible solution for the requested project in the Ingresse Backend Developer Test, better described in [this gist](https://gist.github.com/vitorleal/158e4e3870337dacf9475a5a27e5c7c9).
+This repository contains an application design for the requested project in the Ingresse Backend Developer Test, better described in [this gist](https://gist.github.com/vitorleal/158e4e3870337dacf9475a5a27e5c7c9).
 
 ## Introduction
 
-The project was developed using Ruby as the programming language, and Rails as the main development framework. As requested, the REST API was fully created, and it has an extensible test coverage, with both unit and integration tests.
+The application was developed using Ruby as the programming language, and Rails as the main development framework. As requested, the REST API was fully created, and it has an extensible test coverage, with both unit and integration tests.
 
-Besides that, PostgreSQL was the database of choice, and a cache layer using Redis is available.
+Regarding its infrastructure, the application runs entirelly into Docker containers, with PostgreSQL as its database, and a cache layer using Redis. Two environment were set up: development and production. *On production, Nginx is used as a proxy service, as requested*.
 
-It is possible to check the API's functionality on a heroku app. You can find how to properly access it and make requests to it below.
+Besides that, on pushing, merging and pulling-request to the master branch, a Continuos Integration workflow was set up, allowing developers to properly detect any problem on building or testing the application.
 
-**OBS:** Unfortunately, some functionalities required on the test were not developed, because there wasn't enough time for me to create them.
+Furthermore, it is possible to check the API's functionality on a heroku app - you can find how to properly access it and make requests to it below.
 
 ## Setup
 
-Before setting up the project, the following must be installed in your machine:
-- Ruby 2.6.5 *(I strongly recommend installing it through rvm. There is a nice tutorial on https://rvm.io/ on how to install it)*
-- Redis 5.0+
-- PostgreSQL 11.0+ 
+The only things you need to have installed in your machine to set up the project are `docker` and `docker-compose`.
 
-With all the above installed and properly configured, the first step to setup the project is to install its dependencies, running the following command:
+With that properly installed, you are done to start configuring the application on your local machine, by forking this repository, and cloning it whatever you want.
 
-```
-gem install bundler
-bundle install
-```
-
-Then, it is necessary to setup environment configurations to run it locally. On your .env file fill in the correct informations of your database user, name, pass, and whichever more info you need to properly connect the application to PostgreSQL and Redis. 
-
-**OBS: to give proper permissions to your user on PostgreSQL, don't forget to run `createuser --interactive`, in order to grant super admin permissions to him.**
-
-With that done, there are just two more steps to do before starting the server: creating the database and running the migrations. To accomplish that, run the following on the command line.
+Once you get all the files,  you have to simply run a couple of docker commands.
 
 ```
-rails db:create
-rails db:migrate
+# docker-compose build
+# docker-compose up production
+# docker-compose db:prepare
 ```
 
-Finally, simply run `rails s` to start puma server on localhost, at port 3000 (or another, if you have changed it on .env).
+That's all!
 
-## Test Suite
+The above commands will build the application and its containers on both environments, then it will run it on production and finally it will prepare the database to be used. After all processes end the application will be running on port 80, which you will be able to verify by testing the API with the instructions below.
 
-Before diving into the API, I recommend to check the application's test suite, which I have made extending which was requested on the exercise. For instance, there is a test to check if the password attribute is not being passed as a parameter on a response on the API. There is also a test to ensure the password is encrypted on the database. And more!
-
-I have used RSpec as my testing tool, and to run it, simply use the following command on your terminal:
-
-```
-rspec
-```
-
-**OBS:** I have tried to create tests with pretty auto-explaining naming methods, in order to be extremely straightforward.
+**OBS:** To run the development environment, change `docker-compose up production` to `docker-compose up development`. It will run the application on port 3001.
 
 ## Testing the API locally
 
-With your favorite REST Client, it is possible make GET, POST, PATCH and DELETE requests to the API as you want.
+With your favorite REST Client, it is possible to make GET, POST, PATCH and DELETE requests to the API as you want.
 
 - GET: http://127.0.0.1/users (list all users);
 - GET: http://127.0.0.1/users/:id (list a single user, based on its ID);
@@ -65,22 +46,26 @@ Below there is an example of a valid user object which can be used on a POST req
 
 ```json
 {
-	"user": {
-		"name": "Linus Torvald",
-		"email": "linus@torvald.com",
-		"password": "linus123"
-	}
+  "user": {
+    "name": "Linus Torvald",
+    "email": "linus@torvald.com",
+    "password": "linus123"
+  }
 }
 ```
 
 ## Testing the API on Heroku
 
-As I have mentioned above, I have deployed the application on Heroku. To run it there, just change the URI requests above (127.0.0.1) to **guarded-scrubland-77768.herokuapp.com**. It should work the same as locally.
+As I have mentioned above, I have deployed the application on Heroku for simples tests on the API. To run it there, just change the URI requests above (127.0.0.1) to **guarded-scrubland-77768.herokuapp.com**. It should work the same as locally.
 
-## Redis
+## Continuos Integration
 
-As requested, a cache layer was set using Redis. It is available on both GET requests.
+The application has a Continuos Integration workflow, and you can check it by simply pushing any modification to the master branch of your forked repository.
 
-To see it implemented, you can make any GET request to the API and check on the terminal in which the rails server is running to verify that no call is made to the database after the second straight request to the same endpoint *(just be careful though, because there is a rule to clear Redis cache keys after create and update methods)*.
+Once you push it to Github, you will be able to check the status of the building process on Github Actions. On your browser, go to your repository and click on "Actions" at the top menu. You will see a dashboard with all workflows. Select the correct one, and behold the magic happening.
 
-**OBS:** I have tried to implement it on Heroku, but I was not able to find a free Redis service in there. So, it is only available on local server.
+## Considerations
+
+To see the cache layer implemented, you can make any GET request available to the API and check the logs to verify that no call is made to the database after the second straight request to the same endpoint *(just be careful though, because there is a rule to clear Redis cache keys after create and update methods)*.
+
+**OBS:** On production environment, run `tail -f log/production.rb` to check the logs. On development, simply change it to `development.rb`.
