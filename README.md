@@ -22,15 +22,15 @@ Once you get all the files, you have to simply run a couple of docker commands i
 
 ```
 # docker-compose build
-# docker-compose up production
-# docker-compose db:prepare
+# docker-compose run production rails db:prepare
+# docker-compose up nginx
 ```
 
 That's all!
 
-The above commands will build the application and its containers on both environments, then it will run it on production and prepare the database to be used. After everything is done the application will be running on port 80, which you will be able to verify by testing the API with the instructions below.
+The above commands will build the application and its containers on both environments, then it will prepare the database and run it on production. After everything is done the application will be running on port 80 (as configured on nginx), which you will be able to verify by testing the API with the instructions below.
 
-**OBS:** To run the development environment, change `docker-compose up production` to `docker-compose up development`. It will run the application on port 3001.
+**OBS:** To run the application in development environment, change `docker-compose run producton rails db:prepare` to `docker-compose run development rails db:prepare`, and `docker-compose up nginx` to `docker-compose up development`. It will run the application on port 3001.
 
 ## Testing the API locally
 
